@@ -131,7 +131,7 @@ a:hover {
 /* ===================================
    SVG ICON SYSTEM
    =================================== */
-.icon-svg {
+/* .icon-svg {
   width: 24px;
   height: 24px;
   fill: none;
@@ -141,7 +141,7 @@ a:hover {
   stroke-linejoin: round;
   vertical-align: middle;
   transition: all var(--transition-base);
-}
+} */
 
 .icon-gold {
   stroke: var(--color-accent-primary);
@@ -966,8 +966,8 @@ a:hover {
 
   .hero-container {
     flex-direction: column;
-    /* padding: var(--spacing-md);
-    gap: var(--spacing-md); */
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
   }
 
   .about-content {
