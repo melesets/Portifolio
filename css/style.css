@@ -602,6 +602,7 @@ a:hover {
   transform: scaleX(1);
   transform-origin: left;
   transition: opacity var(--transition-base);
+  pointer-events: none;
 }
 
 /* Shimmer effect */
@@ -616,6 +617,7 @@ a:hover {
   );
   opacity: 0;
   transition: opacity var(--transition-base);
+  pointer-events: none;
 }
 
 .glass-card:hover {
@@ -829,45 +831,99 @@ a:hover {
 /* ===================================
    CONTACT SECTION
    =================================== */
-.contact-content {
-  max-width: 600px;
-  margin: 0 auto;
+.contact-header {
   text-align: center;
+  margin-bottom: var(--spacing-lg);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.contact-content h2 {
+.contact-header h2 {
   margin-bottom: var(--spacing-sm);
 }
 
-.contact-content p {
+.contact-header p {
   font-size: var(--font-size-lg);
-  margin-bottom: var(--spacing-md);
+  color: var(--color-text-secondary);
 }
 
-.contact-links {
-  display: flex;
-  justify-content: center;
+.contact-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.contact-link {
-  width: 50px;
-  height: 50px;
+.contact-info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-md) var(--spacing-sm);
+  gap: var(--spacing-sm);
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+}
+
+a.contact-info-card {
+  cursor: pointer;
+}
+
+.contact-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(10, 15, 40, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 50%;
-  font-size: var(--font-size-xl);
+  font-size: 1.4rem;
+  color: var(--color-accent-primary);
+  margin-bottom: var(--spacing-xs);
   transition: all var(--transition-base);
+  flex-shrink: 0;
 }
 
-.contact-link:hover {
+.contact-info-card:hover .contact-icon-circle {
   background: var(--color-accent-gradient);
-  transform: translateY(-3px) rotate(360deg);
-  box-shadow: 0 5px 15px rgba(26, 188, 156, 0.4);
+  color: #111;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(245, 185, 66, 0.35);
+}
+
+.contact-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.contact-card-value {
+  font-size: clamp(0.6rem, 1.5vw, 0.95rem);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .contact-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-cards-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===================================
@@ -1043,7 +1099,10 @@ a:hover {
 
 /* --- 1. Main Card Container (Common for all 5) --- */
 .project-card {
-  background: transparent;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
   perspective: 1000px; /* Gives the 3D depth */
   height: 350px; /* Set a fixed height so all cards are equal */
 }
@@ -1086,9 +1145,20 @@ a:hover {
 
 /* Back Side Content (Flex Layout) */
 .card-back {
+  z-index: 1;
   transform: rotateY(180deg);
   justify-content: center; /* Vertically centered */
   align-items: center; /* Horizontally centered */
+}
+
+.project-card:hover .card-front {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.project-card:hover .card-back {
+  z-index: 3;
+  pointer-events: auto;
 }
 
 /* --- 3. Link Flexbox Container --- */
@@ -1097,6 +1167,8 @@ a:hover {
   flex-direction: column;
   gap: 15px;
   width: 100%;
+  position: relative;
+  z-index: 10;
 }
 
 .flex-btn {
@@ -1110,6 +1182,9 @@ a:hover {
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
 }
 
 /* Button Variants */
@@ -1133,6 +1208,10 @@ a:hover {
 .card-front h3 {
   margin-bottom: 10px;
   color: #ffd700;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .project-description {
   font-size: 0.9rem;

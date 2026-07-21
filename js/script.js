@@ -9,13 +9,33 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSkillBars();
 });
 
+// Supademo modal trigger with direct link fallback
+function openDemo(e, demoId, fallbackUrl) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    if (window.Supademo && typeof window.Supademo.open === 'function') {
+        try {
+            window.Supademo.open(demoId);
+            return;
+        } catch (err) {
+            console.error('Supademo.open error:', err);
+        }
+    }
+    window.open(fallbackUrl || `https://app.supademo.com/demo/${demoId}`, '_blank');
+}
+
 // Smooth scroll for navigation links
 function setupSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const href = this.getAttribute('href');
+            // Skip bare "#" placeholder links (e.g. Live Demo / GitHub buttons)
+            if (href === '#') return;
+            const target = document.querySelector(href);
             if (target) {
+                e.preventDefault();
                 target.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
